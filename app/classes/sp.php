@@ -6,6 +6,18 @@ class StudentPickup
     public $testing = false;
     public $dbconfig = array();
 
+    function __construct()
+    {
+        $this->dbconfig = array( "host" => ($this->isLocal()) ? "localhost" : "localhost",
+        "user" => ($this->isLocal()) ? "root" : "schpkp_usr",
+        "pass" => ($this->isLocal()) ? "root" : "Wt*4z7p1",
+        "dbname" => ($this->isLocal()) ? "studentpickup" : "local_prod__schoolpickup_net");
+    }
+
+    private function isLocal() {
+        return (stripos($_SERVER['SERVER_NAME'], "local") !== false);
+    }
+
     public function setTesting($t) {
         $this->testing = $t;
     }
@@ -19,10 +31,6 @@ class StudentPickup
             debug_backtrace();
             echo "</pre>";
         }
-    }
-
-    public function setDbConfig($db) {
-        $this->dbconfig = $db;
     }
 
     public function getStudent($student_id, $dbconfig)

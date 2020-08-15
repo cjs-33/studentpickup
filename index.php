@@ -18,12 +18,6 @@ $function = $url_array[1];
 $district = $url_array[2];
 $student_id = $url_array[3];
 
-$SP->setDbConfig(array(
-    "host" => "localhost",
-    "user" => "root",
-    "pass" => "root",
-    "dbname" => "studentpickup"
-));
 
 $mysqli = new mysqli($SP->dbconfig['host'], $SP->dbconfig['user'], $SP->dbconfig['pass'], $SP->dbconfig['dbname']);
 

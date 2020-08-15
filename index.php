@@ -48,9 +48,10 @@ if ($function == "createcode") {
         <tbody>
             
 <?php
+	date_default_timezone_set("America/New_York");
 
     foreach($list as $k) {
-        $formatted_time = date("M d Y, h:i A");
+        $formatted_time = date("M d Y, h:i A", $k['timestamp']);
        echo "<tr><td>{$k['family_name']}</td><td>{$formatted_time}</td></tr>";
     }
 

@@ -47,7 +47,7 @@ class StudentPickup
         $timestamp_created = time();
         $sql = "INSERT INTO student (family_name, timestamp_created) VALUES (\"$family_name\", " . $timestamp_created . ");";
 
-        $mysqli = new mysqli("localhost", "root", "root", "studentpickup");
+        $mysqli = new mysqli($this->dbconfig['host'], $this->dbconfig['user'], $this->dbconfig['pass'], $this->dbconfig['dbname']);
 
         $mysqli->query($sql);
 
@@ -61,7 +61,7 @@ class StudentPickup
     }
 
     public function saveFamilyQrCode($id, $codeSrc) {
-        $mysqli = new mysqli("localhost", "root", "root", "studentpickup");
+        $mysqli = new mysqli($this->dbconfig['host'], $this->dbconfig['user'], $this->dbconfig['pass'], $this->dbconfig['dbname']);
 
         $sql = "UPDATE student SET qrcode_link = \"$codeSrc\" WHERE id = $id;";
         $result = $mysqli->query($sql);
@@ -70,7 +70,7 @@ class StudentPickup
     }
 
     public function getPickups() {
-        $mysqli = new mysqli("localhost", "root", "root", "studentpickup");
+        $mysqli = new mysqli($this->dbconfig['host'], $this->dbconfig['user'], $this->dbconfig['pass'], $this->dbconfig['dbname']);
         $timestamp = time() - 43200; //12 hrs ago
         $sql = "SELECT p.*, s.family_name FROM pickups p LEFT JOIN student s ON p.student_id = s.id WHERE p.timestamp > {$timestamp};";
        

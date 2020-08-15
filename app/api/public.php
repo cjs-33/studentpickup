@@ -1,5 +1,7 @@
 <?php
 
+include_once("../classes/sp.php");
+
 $SP = new StudentPickup();
 
 $SP->setTesting(false);

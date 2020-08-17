@@ -1,14 +1,54 @@
 <?php
 
-include_once("../classes/sp.php");
-
+if ($_SERVER['OS'] == "Windows_NT") {
+    include_once("/app/api/classes/sp.php");
+} else {
+    include_once("../classes/sp.php");
+}
 $SP = new StudentPickup();
 
 $SP->setTesting(false);
 $SP->echodebug($_POST);
 $fname = $_POST['fname'];
 
-if ($fname == "saveNewFamily") {
+if ($fname == "login") {
+
+    //first see if user exists
+
+    $userExists = $SP->doesUserExist($_POST['un']);
+
+    if ($userExists) {
+        //is password correct
+
+        $passwordCorrect = $SP->isPasswordCorrect($_POST['un'], $_POST['pw']);
+
+        if ($passwordCorrect) {
+            //do login!
+
+            $userData = $SP->getUser($_POST['un'])[0];
+            $SP->updateUserActivity($userData['id']);
+
+            $SP->startSession($userData['id'], time(), time() + 86400);
+
+            $returnArray = array('result' => true, "user_id" => $userData['id'], "user_type" => $userData['user_type']);
+
+            echo json_encode($returnArray);
+
+            exit();
+        } else {
+            echo json_encode(array("result" => false));
+            exit();
+        }
+    }
+} else if ($fname == "logout") {
+    $SP->endSession($_POST['user_id']);
+} else if ($fname == "checkSession") {
+    $checkedSession = $SP->checkSession($_POST['user_id']);
+
+    echo json_encode($checkedSession);
+    exit();
+
+}else if ($fname == "saveNewFamily") {
     $SP->echodebug($_POST);
 
     $family_name = $_POST['family_name'];
@@ -49,8 +89,6 @@ if ($fname == "saveNewFamily") {
         echo json_encode(array("status" => false));
         exit();
     }
-
-
 } else {
     $SP->setTesting(true);
     $SP->echodebug($_POST);

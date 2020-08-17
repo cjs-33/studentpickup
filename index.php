@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 0);
+error_reporting(E_ALL); ini_set('display_errors', 0);
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/app/classes/sp.php';
@@ -26,13 +26,12 @@ if ($function == "createcode") {
     //create code
 } else if ($function == "view") {
     //monitor and refresh the page every 5 secs (this is the sheets workaround)
-    include_once("app/dochead.php");
 
     //get all pickups for this 12 hrs
 
     $list = $SP->getPickups();
 
-    ?>
+?>
     <h2>View Pickups</h2>
     <table class="table table-striped table-hover" id="dataTable">
         <thead>
@@ -46,30 +45,30 @@ if ($function == "createcode") {
             </tr>
         </thead>
         <tbody>
-            
-<?php
-	date_default_timezone_set("America/New_York");
 
-    foreach($list as $k) {
-        $formatted_time = date("M d Y, h:i A", $k['timestamp']);
-       echo "<tr><td>{$k['family_name']}</td><td>{$formatted_time}</td></tr>";
-    }
+            <?php
+            date_default_timezone_set("America/New_York");
 
-    if (count($list) == 0) {
-        echo "<tr><td colspan='2'><p><em>No Pickups yet today!</em></p></td></tr>";
-    }
+            foreach ($list as $k) {
+                $formatted_time = date("M d Y, h:i A", $k['timestamp']);
+                echo "<tr><td>{$k['family_name']}</td><td>{$formatted_time}</td></tr>";
+            }
 
-?>
+            if (count($list) == 0) {
+                echo "<tr><td colspan='2'><p><em>No Pickups yet today!</em></p></td></tr>";
+            }
+
+            ?>
         </tbody>
     </table>
 
     <script type="text/javascript">
-        setTimeout(function(){
+        setTimeout(function() {
             window.location.reload(1);
         }, 5000);
     </script>
 
-    <?php
+<?php
 
 } else if ($function == "pickup") {
     include_once("app/dochead.php");
@@ -101,7 +100,6 @@ if ($function == "createcode") {
         $result = mysqli_fetch_assoc($SP->getStudent($student_id, $dbconfig));
         echo "<h1>Pickup logged!</h1> <h2><small>Family name: {$result['family_name']}</small></h2>";
     }
-
 } else if ($function == "app" && $district == "api") {
     include_once("app/api/public.php");
     exit();
@@ -114,7 +112,7 @@ if ($function == "createcode") {
     <h2><small>School System: <?php echo strtoupper($district); ?></small></h2>
 
     <section class="card p-2">
-    <h4>Add New Pickup ID / Generate QR Code</h4>
+        <h4>Add New Pickup ID / Generate QR Code</h4>
 
         <div class='row'>
             <div class="col-xs-12 col-sm-6">
@@ -142,19 +140,21 @@ if ($function == "createcode") {
     </section>
 
     <script type="text/javascript">
-
         $("#instructionsArea, #qrCodeArea").hide();
 
         $("#saveNew").on('click', function(e) {
             e.preventDefault();
             $("#instructionsArea").hide();
-            var bodySend = {"family_name" : $("#family_name").val(), "fname" : "saveNewFamily"};
+            var bodySend = {
+                "family_name": $("#family_name").val(),
+                "fname": "saveNewFamily"
+            };
             $.ajax({
                 url: "/app/api/public.php",
                 method: "POST",
                 data: bodySend,
                 dataType: 'json',
-                success:  function(response) {
+                success: function(response) {
                     console.log(response);
                     var id = response.id;
 
@@ -162,7 +162,11 @@ if ($function == "createcode") {
                     $.ajax({
                         url: "/app/api/public.php",
                         method: "POST",
-                        data: {"fname" : "newQRCode", "student_id" : id, "district" : "<?php echo $district;?>"},
+                        data: {
+                            "fname": "newQRCode",
+                            "student_id": id,
+                            "district": "<?php echo $district; ?>"
+                        },
                         dataType: 'json',
                         success: function(response) {
                             console.log(response);
@@ -172,7 +176,8 @@ if ($function == "createcode") {
 
                             $("button#saveNew").html("ADD ANOTHER");
 
-                        }, error: function(response) {
+                        },
+                        error: function(response) {
                             console.log('ERROR INSIDE');
                             console.error(response);
 
@@ -180,7 +185,8 @@ if ($function == "createcode") {
                         }
                     })
 
-                }, error: function(response) {
+                },
+                error: function(response) {
                     console.log('ERROR OUTSIDE');
 
                     console.error(response);
@@ -200,16 +206,100 @@ if ($function == "createcode") {
 
 
 <?php
+} else if ($function == "login") {
+    include_once(__DIR__ . "/app/dochead.php");
+?>
+    <!-- <div class='col-xs-12 col-sm-6'> -->
+        <section class="text-center m-1 card">
+            <div class='card-header'>
+                <h2>Login</h2>
+            </div>
+            <div class='card-body'>
+                <form name="schoolpickuploginform" method="POST">
+                    <input name="sec_token" id="sec_token" value="<?php echo $SP->setToken()['login_token']; ?>" type="hidden" />
+                    <div class='form-group'>
+                        <label for="em">Email Address</label>
+                        <input type="email" class="form-control" name="em" id="em" autocomplete="email" placeholder="your@email.com" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pw">Password</label>
+                        <input type="password" class="form-control" name="pw" id="pw" placeholder="Password" autocomplete="current-password" />
+                    </div>
+                </form>
+            </div>
+            <div class='card-footer'>
+                <button class="btn btn-outline-secondary cancelBtn col-2" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary loginBtn col-8" id="loginBtn">Log In</button>
+            </div>
+
+
+        </section>
+    <!-- </div>
+    <div class='col-xs-12 col-sm-3'></div> -->
+
+    <script type="text/javascript">
+        $("button#cancelBtn").on('click', function(e) {
+            e.preventDefault();
+
+            window.location.href = "/home";
+        });
+
+        $("button#loginBtn").on('click', function(e) {
+            e.preventDefault();
+
+            //grab both values
+            var emVal = $("#em").val();
+            var pwVal = $("#pw").val();
+            var tokenVal = $("#sec_token").val();
+
+            if (emVal == '' || pwVal == '') {
+                alert('Please provide both your email and password to proceed.');
+            } else {
+                $.ajax({
+                    url: "/app/api/public.php",
+                    method: 'post',
+                    data: {"un" : emVal, "pw" : pwVal, "sectoken" : tokenVal, "fname" : "login"},
+                    success: function(response) {
+                        console.log(response);
+
+                        if (response !== '') { response = JSON.parse(response)} else { alert('Sorry, please try logging in again.');}
+
+                        if (response.result == true) {
+                            localStorage.setItem('user_id', response.user_id);
+                            localStorage.setItem('user_type', response.user_type);
+
+                            console.log(localStorage);
+
+                            $("button#loginBtn").addClass("btn-success").addClass('disabled').html("Login Successful!");
+
+                        } else {
+                            alert("Sorry, please try logging in again.");
+                        }
+
+                        window.location.href = "/home";
+
+                    }, error: function(response) {
+                        console.log(response);
+                        alert("Incorrect email/password combination. Please try again.");
+                    }
+                })
+            }
+
+        });
+    </script>
+
+<?php
+
 } else {
-    //show welcome & login
+    //show welcome screen
 ?>
     <?php include_once(__DIR__ . "/app/dochead.php"); ?>
 
-<h1 class='display-3 text-center'>Welcome</h1>
-<p>To view pickups recorded in the last 12 hours, click "Pickups" above.</p>
-<p>To add students/families and create QR codes for printing, click "Add/Edit".</p>
+    <h1 class='display-3 text-center'>Welcome</h1>
+    <p>To view pickups recorded in the last 12 hours, click "Pickups" above.</p>
+    <p>To add students/families and create QR codes for printing, click "Add/Edit".</p>
 
-
+    <?php $SP->setTesting(true); echo "the session:"; $SP->echodebug($_SESSION); $SP->setTesting(false); ?>
 
 
 <?php

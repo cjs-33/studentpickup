@@ -21,33 +21,33 @@
             <div class='col-xs-12 col-sm-6'>
                 <ul class="nav nav-pills nav-fill">
 
-                    <?php if (isset($_SESSION['user_id'])) {
+                    <?php// if (isset($_SESSION['user_id'])) {
                     ?>
                         <li class="nav-item">
                             <a class='nav-link' href='/view/ocps'>Pickup</a>
                         </li>
                         <?php
-                        if ($_SESSION['user_type'] == 'admin') {
+                        //if ($_SESSION['user_type'] == 'admin') {
                         ?>
                             <li class='nav-item'>
                                 <a class='nav-link' href='/edit/ocps'>Add/Edit</a>
                             </li>
 
                         <?php
-                        }
+                      //  }
                         ?>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class='nav-link' href='/logout'>Log Out</a>
-                        </li>
+                        </li> -->
 
                     <?php
-                    } else {
+                   // } else {
                     ?>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class='nav-link' href='/login'>Log In</a>
-                        </li>
+                        </li> -->
                     <?php
-                    }
+                 //   }
 
                     ?>
 
@@ -63,37 +63,37 @@
     <div class='clear'></div>
 
     <script type='text/javascript'>
-        var userId = localStorage.getItem('user_id');
+        // var userId = localStorage.getItem('user_id');
 
-        $.ajax({
-            url: "/app/api/public.php",
-            method: "POST",
-            data: {"fname" : "checkSession", "user_id" : userId},
-            success: function(response) {
-                console.log(response);
+        // $.ajax({
+        //     url: "/app/api/public.php",
+        //     method: "POST",
+        //     data: {"fname" : "checkSession", "user_id" : userId},
+        //     success: function(response) {
+        //         console.log(response);
 
-                response = JSON.parse(response);
+        //         response = JSON.parse(response);
 
-                if (response === true) {
-                    //all ok
-                } else {
-                    $.ajax({
-                        url: "/app/api/public.php",
-                        method: "POST",
-                        data: {"fname" : "logout", "user_id" : userId},
-                        success: function(response) {
-                            alert("Your session has timed out. Please log in again.");
-                            window.location.href = "/login";
-                        }, error: function(response) {
-                            console.error(response);
-                        }
-                    })
-                }
+        //         if (response === true) {
+        //             //all ok
+        //         } else {
+        //             $.ajax({
+        //                 url: "/app/api/public.php",
+        //                 method: "POST",
+        //                 data: {"fname" : "logout", "user_id" : userId},
+        //                 success: function(response) {
+        //                     alert("Your session has timed out. Please log in again.");
+        //                     window.location.href = "/login";
+        //                 }, error: function(response) {
+        //                     console.error(response);
+        //                 }
+        //             })
+        //         }
 
-            }, error: function(response) {
-                console.error(response);
-            }
-        })
+        //     }, error: function(response) {
+        //         console.error(response);
+        //     }
+        // })
 
     </script>
 

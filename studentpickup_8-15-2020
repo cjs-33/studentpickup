@@ -11,6 +11,20 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+-- Dumping structure for table studentpickup.district
+CREATE TABLE IF NOT EXISTS `district` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table studentpickup.district: ~0 rows (approximately)
+/*!40000 ALTER TABLE `district` DISABLE KEYS */;
+INSERT INTO `district` (`id`, `name`, `address`) VALUES
+	(1, 'OCPS', NULL);
+/*!40000 ALTER TABLE `district` ENABLE KEYS */;
+
 -- Dumping structure for table studentpickup.pickups
 CREATE TABLE IF NOT EXISTS `pickups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,17 +34,58 @@ CREATE TABLE IF NOT EXISTS `pickups` (
   KEY `Index 2` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table studentpickup.pickups: ~0 rows (approximately)
+/*!40000 ALTER TABLE `pickups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pickups` ENABLE KEYS */;
+
+-- Dumping structure for table studentpickup.session
+CREATE TABLE IF NOT EXISTS `session` (
+  `user_id` int(11) NOT NULL,
+  `start` int(11) NOT NULL,
+  `end` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table studentpickup.session: ~0 rows (approximately)
+/*!40000 ALTER TABLE `session` DISABLE KEYS */;
+/*!40000 ALTER TABLE `session` ENABLE KEYS */;
+
 -- Dumping structure for table studentpickup.student
 CREATE TABLE IF NOT EXISTS `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `district_id` int(11) NOT NULL DEFAULT '0',
   `family_name` varchar(50) DEFAULT NULL,
   `qrcode_link` varchar(500) DEFAULT NULL,
   `timestamp_created` int(12) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `Index 2` (`district_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table studentpickup.student: ~0 rows (approximately)
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
+
+-- Dumping structure for table studentpickup.user
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `district_id` int(12) DEFAULT NULL,
+  `user_type` enum('admin','teacher') DEFAULT NULL,
+  `first_name` varchar(500) DEFAULT NULL,
+  `last_name` varchar(500) DEFAULT NULL,
+  `email` varchar(500) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `last_login` int(12) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index 2` (`district_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table studentpickup.user: ~3 rows (approximately)
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `district_id`, `user_type`, `first_name`, `last_name`, `email`, `password`, `last_login`) VALUES
+	(1, 1, 'admin', 'Admin', 'User', 'cjsimmons89@gmail.com', '$2y$10$zAvr/3UfkbHsyiK4Kjvui.RtvlSf9S5Dv6hnRZVY7pzqiR9Ze6TWm', 1597625336),
+	(2, 1, 'admin', 'Steve', 'Morsher', 'stephen.morsher@ocps.net', '$2y$10$O9f0UlvzrHB3fYEjrbXRZOaLa2H30aF7sMcTH3o/yLc2vIXGCoQx.', 1597625228),
+	(3, 1, 'teacher', 'Teacher', 'Account', 'teachers@SRE.com', '$2y$10$YPDb8m5TEY2QtYhS.xYeK.XwCw8vn26j98cIpPdhA/Biw66uz8M6K', NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

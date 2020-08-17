@@ -53,6 +53,8 @@ class StudentPickup
         $_SESSION['user_id'] = $userId;
         $thisUser = $this->getUser('', $userId)[0];
         $_SESSION['user_type'] = $thisUser['user_type'];
+
+        session_write_close();
     }
 
     public function checkSession($userId) {

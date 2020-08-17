@@ -28,6 +28,7 @@ if ($function == "createcode") {
     //monitor and refresh the page every 5 secs (this is the sheets workaround)
 
     //get all pickups for this 12 hrs
+    include_once("app/dochead.php");
 
     $list = $SP->getPickups();
 

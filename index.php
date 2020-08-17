@@ -84,7 +84,7 @@ if ($function == "createcode") {
     $timeresult = mysqli_fetch_assoc($mysqli->query($checkSql));
     if (count($timeresult) > 0) {
         echo "<p>Family Name: <strong>" . $timeresult['family_name'] . "</strong></p>";
-        echo "<p>This student has already been marked as READY for pickup.</p>";
+        echo "<p>This student has been marked as READY for pickup.</p>";
         exit();
     }
 

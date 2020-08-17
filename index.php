@@ -300,7 +300,7 @@ if ($function == "createcode") {
     <p>To view pickups recorded in the last 12 hours, click "Pickups" above.</p>
     <p>To add students/families and create QR codes for printing, click "Add/Edit".</p>
 
-    <?php// $SP->setTesting(true); echo "the session:"; $SP->echodebug($_SESSION); $SP->setTesting(false); ?>
+    <?php // $SP->setTesting(true); echo "the session:"; $SP->echodebug($_SESSION); $SP->setTesting(false); ?>
 
 
 <?php

@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="SchoolPickup.net">
+    <meta property="og:site_name" content="SchoolPickup.net: Safe, Socially-Distant, Secure Student Pickup Application">
+    <meta property="og:title" content="SchoolPickup.net: Safe, Socially-Distant, Secure Student Pickup Application">
+    <meta property="og:url" content="https://schoolpickup.net" >
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Easy to use, socially distant, Covid-19 safe application that makes school dismissals straightfowrward and organized. ">
+    <meta itemprop="name" content="SchoolPickup.net: Safe, Socially-Distant, Secure Student Pickup Application">
+    <meta itemprop="url" content="https://schoolpickup.net">
+    <meta itemprop="description" content="Easy to use, socially distant, Covid-19 safe application that makes school dismissals straightfowrward and organized.">
+    <meta name="description" content="Easy to use, socially distant, Covid-19 safe application that makes school dismissals straightfowrward and organized.">
+    <meta name="keywords" content="school, pickup, dismissal, education, teachers, covid-19, safe dismissal, school pickup, pickup, parents, driving" >
+    <meta name="theme-color" content="#007bff">
+    
     <title>SchoolPickup.net | Coming Soon</title>
     <!-- app includes -->
     <?php include_once(__DIR__ . "/includes/includes.php"); ?>

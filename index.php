@@ -296,7 +296,15 @@ if ($function == "createcode") {
 ?>
     <?php include_once(__DIR__ . "/app/dochead.php"); ?>
 
-    <h1 class='display-3 text-center'>Welcome</h1>
+    <div class='jumbotron'>
+    <h1 class='display-2 text-center'>Safe, Secure, Organized<br/> <span class='display-1'>School Pickup</span></h1>
+
+        <h4 class=''>Easy-to-use, safe, socially-distant school safety pickup program</h4>
+        <hr class='my-4' />
+        <p class='lead'>Take the guesswork out of dismissal, the craziest time of day, and replace it with this organized, easy-to-use, safe and fast solution. </p>
+        <hr class='my-3' />
+        <p>Currently in beta</p>
+    </div>
     <p>To view pickups recorded in the last 12 hours, click "Pickups" above.</p>
     <p>To add students/families and create QR codes for printing, click "Add/Edit".</p>
 

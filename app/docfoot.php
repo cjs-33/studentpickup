@@ -1,6 +1,6 @@
 </div>
 <footer>
-    <p class='text-center'>&copy; 2020 | All Rights Reserved</p>
+    <p class='text-center'>&copy; 2020 SchoolPickup.net | All Rights Reserved</p>
 </footer>
 </body>
 
